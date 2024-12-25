@@ -1,0 +1,12 @@
+[package]
+name = "riir"
+version = "0.0.1"
+edition = "2021"
+description = "RIIR - The AI tool to Rewrite/Refactor It In Rust"
+
+[dependencies]
+anyhow = "1.0.95"
+async-openai = "0.26.0"
+clap = { version = "4.5.23", features = ["derive"] }
+dotenvy = "0.15.7"
+tokio = { version = "1.42.0", features = ["full"] }
