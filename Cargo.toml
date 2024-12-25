@@ -5,6 +5,7 @@ edition = "2021"
 description = "RIIR - The AI tool to Rewrite/Refactor It In Rust"
 license = "Apache-2.0"
 repository = "https://github.com/rationalintelligence/riir"
+readme = "README.md"
 
 [dependencies]
 anyhow = "1.0.95"
