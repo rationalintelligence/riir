@@ -41,12 +41,12 @@ async fn main() -> Result<()> {
     but an output has to be a code only.";
 
     let request = format!(
-        "Do the following with the code: {}. \nThe code: ```{}```",
+        "Do the following with the code: {}. \nThe code:\n\n{}",
         prompt, code
     );
 
     let request = CreateChatCompletionRequestArgs::default()
-        .model("o3")
+        .model("gpt-4o")
         .messages([
             ChatCompletionRequestSystemMessage::from(SYSTEM).into(),
             ChatCompletionRequestUserMessage::from(request).into(),
