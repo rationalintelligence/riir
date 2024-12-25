@@ -1,6 +1,6 @@
 mod opts;
 
-use anyhow::{Error, Result};
+use anyhow::{anyhow, Result};
 use async_openai::config::OpenAIConfig;
 use async_openai::types::{
     ChatCompletionRequestSystemMessage, ChatCompletionRequestUserMessage,
@@ -41,7 +41,7 @@ async fn main() -> Result<()> {
     but an output has to be a code only.";
 
     let request = format!(
-        "Do the following with the code: {}. \nThe code:\n\n{}",
+        "Do the following with the code: {}. \nThe code:\n\n```{}```",
         prompt, code
     );
 
@@ -57,10 +57,10 @@ async fn main() -> Result<()> {
         .choices
         .into_iter()
         .next()
-        .ok_or_else(|| Error::msg("No responses provided by the model."))?
+        .ok_or_else(|| anyhow!("No responses provided by the model."))?
         .message
         .content
-        .ok_or_else(|| Error::msg("The response doesn't contain a message."))?;
+        .ok_or_else(|| anyhow!("The response doesn't contain a message."))?;
 
     println!("Writing the diff...");
     fs::write(path, contents).await?;
