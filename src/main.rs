@@ -9,7 +9,10 @@ use async_openai::types::{
 use async_openai::Client;
 use clap::Parser;
 use opts::Opts;
-use tokio::fs;
+use tokio::{
+    fs,
+    io::{self, AsyncBufReadExt, BufReader},
+};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -24,6 +27,13 @@ async fn main() -> Result<()> {
     let contents = fs::read(path).await?;
     let code = String::from_utf8(contents)?;
 
+    println!("What should I do with the file?");
+
+    let stdin = io::stdin();
+    let mut reader = BufReader::new(stdin);
+    let mut prompt = String::new();
+    reader.read_line(&mut prompt).await?;
+
     println!("Asking AI...");
 
     const SYSTEM: &str = "You are an experienced Rust developer who writes idiomatic code.
@@ -32,7 +42,7 @@ async fn main() -> Result<()> {
 
     let request = format!(
         "Do the following with the code: {}. \nThe code: ```{}```",
-        "", code
+        prompt, code
     );
 
     let request = CreateChatCompletionRequestArgs::default()
