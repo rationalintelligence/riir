@@ -3,6 +3,8 @@ name = "riir"
 version = "0.0.1"
 edition = "2021"
 description = "RIIR - The AI tool to Rewrite/Refactor It In Rust"
+license = "Apache-2.0"
+repository = "https://github.com/rationalintelligence/riir"
 
 [dependencies]
 anyhow = "1.0.95"
