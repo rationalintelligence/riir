@@ -8,7 +8,9 @@ use async_openai::types::{
 };
 use async_openai::Client;
 use clap::Parser;
+use itertools::Itertools;
 use opts::Opts;
+use std::collections::VecDeque;
 use tokio::{
     fs,
     io::{self, AsyncBufReadExt, BufReader},
@@ -61,6 +63,19 @@ async fn main() -> Result<()> {
         .message
         .content
         .ok_or_else(|| anyhow!("The response doesn't contain a message."))?;
+
+    let mut lines: VecDeque<_> = contents.lines().collect();
+    if let Some(front) = lines.front() {
+        if front.starts_with("```") {
+            lines.pop_front();
+        }
+    }
+    if let Some(back) = lines.back() {
+        if back.starts_with("```") {
+            lines.pop_back();
+        }
+    }
+    let contents = lines.into_iter().join("\n");
 
     println!("Writing the diff...");
     fs::write(path, contents).await?;

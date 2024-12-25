@@ -11,4 +11,5 @@ anyhow = "1.0.95"
 async-openai = "0.26.0"
 clap = { version = "4.5.23", features = ["derive"] }
 dotenvy = "0.15.7"
+itertools = "0.13.0"
 tokio = { version = "1.42.0", features = ["full"] }
